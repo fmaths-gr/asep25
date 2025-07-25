@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://asep25.fmaths.gr/sitemap.xml
