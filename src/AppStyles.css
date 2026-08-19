@@ -70,14 +70,8 @@ button:disabled {
   margin-top: 2.5rem;
   margin-bottom: -1rem;
   line-height: 1.4;
-  padding: 1rem 0rem;
+  padding: 1rem 0.5rem;
   border-top: 2px solid #eee;
-}
-
-@media (max-width: 500px) {
-  .asep-disclaimer {
-    font-size: 0.75rem;
-  }
 }
 
 .footer {
@@ -151,7 +145,6 @@ button:disabled {
   display: block;
 }
 
-.start-field select,
 .start-field input[type="number"] {
   padding: 0.6rem 0.8rem;
   font-size: 1rem;
@@ -170,29 +163,6 @@ button:disabled {
   border-radius: 8px;
   outline: none;
   box-sizing: border-box;
-}
-
-.box {
-  display: flex;
-}
-
-.asep {
-  display: inline-flex;
-  align-items: center;
-  margin-left: auto;
-  padding-left: 1.6988rem;
-  font-size: 1.1rem;
-  font-weight: 500;
-  font-style: italic;
-  color: #555;
-  letter-spacing: 0.05em;
-}
-
-.start-field select:disabled,
-.start-field option:disabled,
-.start-field option.disabled-option {
-  color: #aaa;
-  font-style: italic;
 }
 
 .section-options {
@@ -226,7 +196,6 @@ button:disabled {
   cursor: pointer;
 }
 
-.checkbox-inline input[type="checkbox"],
 input[type="checkbox"] {
   margin-right: 0.5rem;
   transform: scale(1.3);

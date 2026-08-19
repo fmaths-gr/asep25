@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 // === TestRunPage component: Σελίδα εκτέλεσης του quiz ===
-function TestRunPage({ questions = [], userChoices, onRestart, onFinish }) {
+function TestRunPage({ questions = [], onRestart, onFinish }) {
   // --- Καταστάσεις ---
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);

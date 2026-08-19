@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './AppStyles.css';
-import questions from './data/questions_2025.json';
+import questions from './data/questions.json';
+import { fisherYatesShuffle } from './utils/shuffle';
 import StartPage from './pages/StartPage';
 import TestRunPage from './pages/TestRunPage';
 import PracticePage from './pages/PracticePage';
@@ -34,6 +35,26 @@ function App() {
     setShowResults(true);
   };
 
+  // --- Επανάληψη λαθών ---
+  const handleRetryWrongAnswers = (wrongQuestions, practiceMode) => {
+    // Scroll στην κορυφή
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Τυχαιοποίηση σειράς ερωτήσεων και επιλογών
+    const shuffledQuestions = fisherYatesShuffle(wrongQuestions);
+
+    const randomizedQuestions = shuffledQuestions.map((q) => ({
+      ...q,
+      options: fisherYatesShuffle(q.options),
+    }));
+
+    setQuizQuestions(randomizedQuestions);
+    setUserChoices({ practiceMode });
+    setUserAnswers([]);
+    setShowResults(false);
+    setStarted(true);
+  };
+
   // --- Επανεκκίνηση εφαρμογής ---
   const handleRestart = () => {
     // Scroll στην κορυφή
@@ -48,7 +69,7 @@ function App() {
 
   // --- Αντιγραφή του συνδέσμου της εφαρμογής στο πρόχειρο ---
   const handleCopyLink = () => {
-    const url = 'https://asep25.fmaths.gr';
+    const url = 'https://asep.fmaths.gr';
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(url)
@@ -75,7 +96,7 @@ function App() {
     try {
       const success = document.execCommand('copy');
       alert(success ? '📋 Ο σύνδεσμος αντιγράφηκε!' : '⚠️ Δεν ήταν δυνατή η αντιγραφή.');
-    } catch (err) {
+    } catch {
       alert('⚠️ Δεν ήταν δυνατή η αντιγραφή.');
     }
 
@@ -104,14 +125,14 @@ function App() {
         userChoices?.practiceMode ? (
           <PracticePage
             questions={quizQuestions}
-            userChoices={userChoices}
-            onFinish={handleFinish}
             onRestart={handleRestart}
+            onRetryWrongAnswers={(wrongQuestions) =>
+              handleRetryWrongAnswers(wrongQuestions, true)
+            }
           />
         ) : (
           <TestRunPage
             questions={quizQuestions}
-            userChoices={userChoices}
             onFinish={handleFinish}
             onRestart={handleRestart}
           />
@@ -124,6 +145,9 @@ function App() {
           questions={quizQuestions}
           userAnswers={userAnswers}
           onRestart={handleRestart}
+          onRetryWrongAnswers={(wrongQuestions) =>
+            handleRetryWrongAnswers(wrongQuestions, false)
+          }
         />
       )}
 
@@ -143,7 +167,7 @@ function App() {
           className="footer"
           onClick={handleCopyLink}
           style={{ paddingLeft: '1.6rem' }}
-          title='Copy link 👉 https://asep25.fmaths.gr'
+          title='Copy link 👉 https://asep.fmaths.gr'
         >
           🔗 Share
         </button>

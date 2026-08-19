@@ -1,7 +1,7 @@
-import React from 'react';
+import Disclaimer from '../components/Disclaimer';
 
 // === ResultsPage component: Εμφάνιση αποτελεσμάτων και ανάλυση λανθασμένων ===
-function ResultsPage({ questions, userAnswers, onRestart }) {
+function ResultsPage({ questions, userAnswers, onRestart, onRetryWrongAnswers }) {
   // --- Συνολικός αριθμός ερωτήσεων ---
   const totalQuestions = questions.length;
 
@@ -91,39 +91,22 @@ function ResultsPage({ questions, userAnswers, onRestart }) {
         </>
       )}
 
+      {/* Κουμπί επανάληψης λαθών */}
+      {wrongAnswers.length > 0 && (
+        <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+          <button onClick={() => onRetryWrongAnswers(wrongAnswers)}>
+            Επανάληψη λαθών
+          </button>
+        </div>
+      )}
+
       {/* Κουμπί επανεκκίνησης */}
       <div style={{ marginTop: '2rem', textAlign: 'center' }}>
         <button onClick={onRestart}>Επανεκκίνηση</button>
       </div>
 
       {/* Ενημερωτικό disclaimer */}
-      <p className="asep-disclaimer">
-        Οι ερωτήσεις που περιλαμβάνονται σε αυτή την εφαρμογή προέρχονται από το Μητρώο Θεμάτων του ΑΣΕΠ,
-        όπως δημοσιεύθηκαν στο πλαίσιο της προκήρυξης 1Γ/2025. Η παρούσα εφαρμογή είναι ανεπίσημη και προορίζεται
-        αποκλειστικά για εκπαιδευτική χρήση, χωρίς εμπορικό σκοπό.<br /><br /><br />
-        Copyright © 2025 fMaths
-        <span style={{ margin: '0 4px' }}>•</span>
-        <span style={{ display: 'inline-block', marginBottom: '4px' }}>
-          Εκπαιδευτική εφαρμογή
-        </span><br />
-        <a
-          href="https://fmaths.gr/terms-of-use"
-          target="_blank"
-          rel="noopener"
-          style={{ marginRight: '4px', textDecoration: 'none', color: '#0000EE' }}
-        >
-          Όροι Χρήσης
-        </a>
-        •
-        <a
-          href="https://fmaths.gr/privacy-policy"
-          target="_blank"
-          rel="noopener"
-          style={{ marginLeft: '4px', textDecoration: 'none', color: '#0000EE' }}
-        >
-          Πολιτική Απορρήτου
-        </a>
-      </p>
+      <Disclaimer />
     </div>
   );
 }

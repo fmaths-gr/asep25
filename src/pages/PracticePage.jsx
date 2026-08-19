@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import Disclaimer from '../components/Disclaimer';
 
 // === PracticePage component: Σελίδα εξάσκησης με έλεγχο απάντησης ===
-function PracticePage({ questions = [], userChoices, onRestart }) {
+function PracticePage({ questions = [], onRestart, onRetryWrongAnswers }) {
   // --- Καταστάσεις ---
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -32,6 +33,17 @@ function PracticePage({ questions = [], userChoices, onRestart }) {
     setFinished(true);
   };
 
+  // --- Διαχείριση επανάληψης λαθών ---
+  const handleRetryWrongAnswers = (wrongAnswers) => {
+    setCurrentIndex(0);
+    setSelectedAnswer(null);
+    setUserAnswers([]);
+    setShowResult(false);
+    setFinished(false);
+
+    onRetryWrongAnswers(wrongAnswers);
+  };
+
   // === Αν δεν υπάρχουν διαθέσιμες ερωτήσεις ===
   if (!Array.isArray(questions) || totalQuestions === 0) {
     return (
@@ -49,10 +61,26 @@ function PracticePage({ questions = [], userChoices, onRestart }) {
     // Scroll στην κορυφή
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
+    // Λανθασμένες απαντήσεις
+    const wrongAnswers = questions.filter(
+      (q, i) => q.answer !== userAnswers[i]
+    );
+
     return (
       <div className="start-container">
         <h2 className="title">👏 Τέλος εξάσκησης!</h2>
-        <p className="practice-complete-text">🚀 Πάμε ξανά!</p>
+        {wrongAnswers.length === 0 && (
+          <p className="practice-complete-text">🚀 Πάμε ξανά!</p>
+        )}
+
+        {/* Κουμπί επανάληψης λαθών */}
+        {wrongAnswers.length > 0 && (
+          <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+            <button onClick={() => handleRetryWrongAnswers(wrongAnswers)}>
+              Επανάληψη λαθών
+            </button>
+          </div>
+        )}
 
         {/* Κουμπί επανεκκίνησης */}
         <div style={{ marginTop: '2rem', textAlign: 'center' }}>
@@ -60,33 +88,7 @@ function PracticePage({ questions = [], userChoices, onRestart }) {
         </div>
 
         {/* Ενημερωτικό disclaimer */}
-        <p className="asep-disclaimer">
-          Οι ερωτήσεις που περιλαμβάνονται σε αυτή την εφαρμογή προέρχονται από το Μητρώο Θεμάτων του ΑΣΕΠ,
-          όπως δημοσιεύθηκαν στο πλαίσιο της προκήρυξης 1Γ/2025. Η παρούσα εφαρμογή είναι ανεπίσημη και προορίζεται
-          αποκλειστικά για εκπαιδευτική χρήση, χωρίς εμπορικό σκοπό.<br /><br /><br />
-          Copyright © 2025 fMaths
-          <span style={{ margin: '0 4px' }}>•</span>
-          <span style={{ display: 'inline-block', marginBottom: '4px' }}>
-            Εκπαιδευτική εφαρμογή
-          </span><br />
-          <a
-            href="https://fmaths.gr/terms-of-use"
-            target="_blank"
-            rel="noopener"
-            style={{ marginRight: '4px', textDecoration: 'none', color: '#0000EE' }}
-          >
-            Όροι Χρήσης
-          </a>
-          •
-          <a
-            href="https://fmaths.gr/privacy-policy"
-            target="_blank"
-            rel="noopener"
-            style={{ marginLeft: '4px', textDecoration: 'none', color: '#0000EE' }}
-          >
-            Πολιτική Απορρήτου
-          </a>
-        </p>
+        <Disclaimer />
       </div>
     );
   }
