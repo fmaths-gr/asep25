@@ -233,6 +233,7 @@ function StartPage({ onStart, questions }) {
         Απαντήστε στις ερωτήσεις και στο τέλος<br/>
         δείτε τα λάθη και το σκορ σας.
       </p>
+
       {/* Κουμπί εξάσκησης */}
       <button onClick={handlePracticeStart} disabled={disableStartButton}>
         Εξάσκηση
@@ -240,6 +241,11 @@ function StartPage({ onStart, questions }) {
       <p className="mode-description">
         Μελετήστε τις ερωτήσεις και ελέγξτε άμεσα<br/>
         ποια είναι η σωστή απάντηση.
+      </p>
+
+      {/* Έκδοση ερωτήσεων */}
+      <p className="questions-publication">
+        Έκδοση ερωτήσεων ΑΣΕΠ: 3 Απριλίου 2026
       </p>
 
       {/* Ενημερωτικό disclaimer */}

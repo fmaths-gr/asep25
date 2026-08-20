@@ -223,6 +223,15 @@ input[type="number"]:disabled {
   line-height: 1.4;
 }
 
+.questions-publication {
+  font-size: 0.74rem;
+  color: #555;
+  font-weight: 500;
+  margin-top: 2rem;
+  margin-bottom: -1.5rem;
+  text-align: center;
+}
+
 /* === Test Run Page | Practice Page === */
 .trp-question-block {
   margin-top: 2rem;
